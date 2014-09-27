@@ -98,18 +98,21 @@
 		var infowindow = new google.maps.InfoWindow(); 
 		
 		function cargarDatos(){
+			var datos_cargados = 0;
 			objetos.forEach(function(parametro, posicion){
 				document.getElementById('dir'+parametro).value = Reg[posicion];
-				DirToCoor('dir'+parametro, Reg[posicion]);
+				DirToCoor('dir'+parametro, Reg[posicion], datos_cargados);
 			});
-			setTimeout(function(){pintaMapa();}, 2000);
+			//setTimeout(function(){pintaMapa();}, 2000);
+			return (datos_cargados == objetos.length())?true:false;
 		}
 	
-		function DirToCoor(p, dir) {
+		function DirToCoor(p, dir, datos_cargados) {
 			var ele = p + "coor"
 			geocoder.geocode( { 'address': dir }, function(results, status) {
 				if (dir != null && dir != '' && status == google.maps.GeocoderStatus.OK) {
 						document.getElementById(ele).value = results[0].geometry.location;
+						datos_cargados++;
 				} else {
 					document.getElementById(ele).value = (0,0);
 				}
@@ -118,7 +121,12 @@
 	</script>
     <script>
 		function initialize() {
-			cargarDatos();
+			if (cargarDatos() == true) {
+				console.log("Ueee ha cargado todo");
+			}
+			else {
+				console.log("Ha faltado algo por cargar");
+			}
 		}
 
 		function pintaMapa(){
