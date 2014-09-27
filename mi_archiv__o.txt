@@ -1,0 +1,4 @@
+registro1="Passatge d'aloi 2, barcelona"
+registro2=""
+registro3=""
+

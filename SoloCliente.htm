@@ -126,17 +126,17 @@
 			geocoder.geocode( { 'address': dir }, function(results, status) {
 				if (dir != null && dir != '' && status == google.maps.GeocoderStatus.OK) {
 					document.getElementById(ele).value = results[0].geometry.location;
-					todoCargado();
+					
 				} else {
-					if (dir != null && dir != '' && status != google.maps.GeocoderStatus.OK)
+					/*if (dir != null && dir != '' && status != google.maps.GeocoderStatus.OK)
 					{
 						falloDeCarga();
 					}
 					else {
 						todoCargado();
-					}
+					}*/
 					document.getElementById(ele).value = (0,0);
-				}
+				}todoCargado();
 			});
 		}	
 		

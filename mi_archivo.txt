@@ -1,4 +1,4 @@
 registro1="Passatge d'aloi 2, barcelona"
-registro2=""
-registro3=""
+registro2="Avinguda sarria 137-139 barcelona"
+registro3="conchita supervia 9"
 
