@@ -128,8 +128,7 @@
 				document.getElementById('data').style.display = 'initial';
 			}
 		}
-	</script>
-    <script>
+
 		function initialize() {
 			cargarDatos();
 		}
@@ -137,6 +136,28 @@
 		function pintaMapa(){
 			if (document.getElementById("dirclientecoor").value.toString() != '0'){
 				MostrarElementos();
+				
+				var features = [
+				  {
+					position: new google.maps.LatLng(document.getElementById('dir'+objetos[0]+'coor').value.substring(1,document.getElementById('dir'+objetos[0]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[0]+'coor').value.substring(document.getElementById('dir'+objetos[0]+'coor').value.indexOf(",") +1))),
+					type: objetos[0],
+					dir: document.getElementById('dir'+objetos[0]).value,
+					z: 2, //prioridad de aparicion, icono con z mayor es el predominante y se superpone a los demás.
+					transparency: 1
+				  }/*, {
+					position: new google.maps.LatLng(document.getElementById('dir'+objetos[1]+'coor').value.substring(1,document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[1]+'coor').value.substring(document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",") +1))),
+					type: objetos[1],
+					dir: document.getElementById('dir'+objetos[1]).value,
+					z: 1,
+					transparency: 1
+				  }, {
+					position: new google.maps.LatLng(document.getElementById('dir'+objetos[2]+'coor').value.substring(1,document.getElementById('dir'+objetos[2]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[2]+'coor').value.substring(document.getElementById('dir'+objetos[2]+'coor').value.indexOf(",") +1))),
+					type: objetos[2],
+					dir: document.getElementById('dir'+objetos[2]).value,
+					z: 0,
+					transparency: 0.7
+				  }*/
+				];
 				
 				map = new google.maps.Map(document.getElementById('map_canvas'), {
 				  zoom: zoom,
@@ -165,27 +186,7 @@
 					}
 				}
 				
-				var features = [
-				  {
-					position: new google.maps.LatLng(document.getElementById('dirclientecoor').value.substring(1,document.getElementById('dirclientecoor').value.indexOf(",")),parseFloat(document.getElementById('dirclientecoor').value.substring(document.getElementById('dirclientecoor').value.indexOf(",") +1))),
-					type: 'cliente',
-					dir: document.getElementById("dircliente").value,
-					z: 2, //prioridad de aparicion, icono con z mayor es el predominante y se superpone a los demás.
-					transparency: 1
-				  }/*, {
-					position: new google.maps.LatLng(document.getElementById('dirvehicoor').value.substring(1,document.getElementById('dirvehicoor').value.indexOf(",")),parseFloat(document.getElementById('dirvehicoor').value.substring(document.getElementById('dirvehicoor').value.indexOf(",") +1))),
-					type: 'vehiculo',
-					dir: document.getElementById("dirvehi").value,
-					z: 1,
-					transparency: 1
-				  }, {
-					position: new google.maps.LatLng(document.getElementById('dirchofcoor').value.substring(1,document.getElementById('dirchofcoor').value.indexOf(",")),parseFloat(document.getElementById('dirchofcoor').value.substring(document.getElementById('dirchofcoor').value.indexOf(",") +1))),
-					type: 'chofer',
-					dir: document.getElementById("dirchof").value,
-					z: 0,
-					transparency: 0.7
-				  }*/
-				];
+				
 
 				var par = document.getElementById('box');			
 				for (var i = 0, feature; feature = features[i]; i++) {
