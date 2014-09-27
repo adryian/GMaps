@@ -74,7 +74,23 @@
 	<script>
 		var imagenes = ['pal2/icon13.png', 'pal4/icon15.png', 'pal2/icon6.png'];
 		var DirIcon = 'http://maps.google.com/mapfiles/kml/';
-		var objetos = ['cliente', 'vehiculo', 'chofer'];
+		//ROCO
+		var icons = {
+				cliente: {
+				name: 'Cliente',
+				icon: DirIcon + 'pal2/icon13.png'
+			},
+			/*vehiculo: {
+				name: 'Vehículo',
+				icon: DirIcon + 'pal4/icon15.png'
+			},
+			chofer: {
+				name: 'Chofer',
+				icon: DirIcon + 'pal2/icon6.png'
+			},*/
+		};
+		var objetos = Object.keys(icons);
+		console.log(objetos);
 		var Reg = [registro1, registro2, registro3];
 		var map, icons; 
 		var geocoder = new google.maps.Geocoder();;
@@ -119,22 +135,6 @@
 				  center: new google.maps.LatLng(41.384839453565945,2.1505413370483666),
 				  mapTypeId: google.maps.MapTypeId.ROADMAP,
 				});
-				
-				//ROCO
-				var icons = {
-						cliente: {
-						name: 'Cliente',
-						icon: DirIcon + 'pal2/icon13.png'
-					},
-					/*vehiculo: {
-						name: 'Vehículo',
-						icon: DirIcon + 'pal4/icon15.png'
-					},
-					chofer: {
-						name: 'Chofer',
-						icon: DirIcon + 'pal2/icon6.png'
-					},*/
-				};
 				
 				function addMarker(feature) {
 					if (feature.position.toString() != '(0, 0)'){
