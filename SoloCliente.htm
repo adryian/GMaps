@@ -270,15 +270,16 @@
 			if (status == google.maps.DistanceMatrixStatus.OK) {
 				var origins = response.originAddresses;
 				var destinations = response.destinationAddresses;
-
-				for (var i = 0; i < origins.length; i++) {
-					var results = response.rows[i].elements;
-					for (var j = 0; j < results.length; j++) {
-						outputDiv.innerHTML += "<b>Vehiculo:  </b>" + origins[i] + '<br><b>Cliente:  </b>' + destinations[j]
-						+ '<br><b>Distancia:  </b>' + results[j].distance.text + '<br><b>Tiempo:  </b> '
-						+ results[j].duration.text + ' aproximadamente.<br>';
+				try{
+					for (var i = 0; i < origins.length; i++) {
+						var results = response.rows[i].elements;
+						for (var j = 0; j < results.length; j++) {
+							outputDiv.innerHTML += "<b>Vehiculo:  </b>" + origins[i] + '<br><b>Cliente:  </b>' + destinations[j]
+							+ '<br><b>Distancia:  </b>' + results[j].distance.text + '<br><b>Tiempo:  </b> '
+							+ results[j].duration.text + ' aproximadamente.<br>';
+						}
 					}
-				}
+				}catch(err){alert("Faltan parámetros");}
 			}
 		}
 		
