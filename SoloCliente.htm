@@ -202,8 +202,7 @@
 						tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"><span id="nombox"><b>  ' + 
 						feature.type + '</b></span></div></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td>';
 						if (feature.type != objetos[0]){
-						alert(feature.type + ' ' + objetos[0]);
-							tr.innerHTML +=	'<td><button type="button" onclick="calculateDistances('+feature.type+', '+objetos[0]+');">Cálcular</button></td>';
+							tr.innerHTML +=	'<td><button type="button" id="botonCalculo'+feature.type+'");">Cálcular</button></td>';
 						}
 						par.appendChild(tr);
 						var tr = document.createElement('tr');
@@ -219,7 +218,7 @@
 					dat.appendChild(tr);
 					map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dat);
 				}
-				
+				EventCreatorOnCLick();
 				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(par);
 				ResizeMap();
 			} else { alert('ERROR al procesar las coordenadas.');}
@@ -240,9 +239,19 @@
 			}
 			return bool;
 		}
+		
+		function EventCreatorOnCLick(){
+			var inputElement = document.getElementById("botonCalculo"+objetos[1]);
+			inputElement.addEventListener('click', function(){
+				calculateDistances(objetos[1], objetos[0]);
+			});
+			var inputElement = document.getElementById("botonCalculo"+objetos[2]);
+			inputElement.addEventListener('click', function(){
+				calculateDistances(objetos[2], objetos[0]);
+			});
+		}
 
 		function calculateDistances(obj2, obj1) {
-		alert(obj2 + ' ' + obj1);
 			limpiarDiv();
 			DeleteCamino();
 			var origen = new google.maps.LatLng(parseFloat(document.getElementById('t'+obj2).value.split(",")[0]),parseFloat(document.getElementById('t'+obj2).value.split(",")[1]));
@@ -257,7 +266,7 @@
 				avoidTolls: false
 			}, callback);
 			callback;
-			loadCamino();
+			loadCamino(obj2, obj1);
 		}
 		
 		function callback(response, status) {
@@ -294,12 +303,12 @@
     </script>
 	<script>
 		var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
-		function loadCamino(){
+		function loadCamino(obj2, obj1){
 			var dirService = new google.maps.DirectionsService();
 			dirRenderer.setMap(map);
 			var request = {
-				origin: document.getElementById('t'+objetos[1]).value,
-				destination: document.getElementById('t'+objetos[0]).value,
+				origin: document.getElementById('t'+obj2).value,
+				destination: document.getElementById('t'+obj1).value,
 				travelMode: google.maps.TravelMode.DRIVING
 			};
 			dirService.route(request, function(result, status) {
