@@ -142,7 +142,7 @@
 					position: new google.maps.LatLng(document.getElementById('dir'+objetos[0]+'coor').value.substring(1,document.getElementById('dir'+objetos[0]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[0]+'coor').value.substring(document.getElementById('dir'+objetos[0]+'coor').value.indexOf(",") +1))),
 					type: objetos[0],
 					dir: document.getElementById('dir'+objetos[0]).value,
-					z: 2, //prioridad de aparicion, icono con z mayor es el predominante y se superpone a los demás.
+					z: 2, //prioridad de aparición, icono con z mayor es el predominante y se superpone a los demás.
 					transparency: 1
 				  }/*, {
 					position: new google.maps.LatLng(document.getElementById('dir'+objetos[1]+'coor').value.substring(1,document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[1]+'coor').value.substring(document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",") +1))),
@@ -177,7 +177,7 @@
 							zIndex: feature.z
 						});
 						bounds.extend(marker.position);
-						if (objetos.length == 1){
+						if (UnElemento()){
 							map.panTo(marker.position);
 						}	
 						google.maps.event.addListener(marker, "dragend", function(evento) {
@@ -186,7 +186,7 @@
 					}
 				}
 				
-				
+				ResizeMap();
 
 				var par = document.getElementById('box');			
 				for (var i = 0, feature; feature = features[i]; i++) {
@@ -197,31 +197,35 @@
 					feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + parseFloat(feature.position.lng()) + '" size="20" readonly="true"/></td>';
 					par.appendChild(tr);
 				}	
+				if (!UnElemento()){
+					var tr = document.createElement('tr');
+					tr.innerHTML = '<td><button type="button" onclick="calculateDistances();">Cálculo</button></td>';
+					par.appendChild(tr);
+						
+					var dat = document.getElementById('data');			
+					var tr = document.createElement('tr');
+					tr.innerHTML = '<td></td><td><div id="dist">Distancia del vehículo al cliente final.</div></td>';
+					dat.appendChild(tr);
+					map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dat);
+				}
 				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(par);
-				/*var tr = document.createElement('tr');
-				tr.innerHTML = '<td><button type="button" onclick="calculateDistances();">Cálculo</button></td>';
-				par.appendChild(tr);*/
-				//map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(par);
-				
-				/*var dat = document.getElementById('data');
-				var tr = document.createElement('tr');
-				tr.innerHTML = '<td></td><td><div id="dist">Distancia del vehículo al cliente final.</div></td>';
-				dat.appendChild(tr);
-				map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dat);*/
-				
-				//COJEMOS LOS DOS VÍNCULOS DE POSICIÓN DE MARCADOR Y REDIMENSIONAMOS EL MAPA.
-				//map.fitBounds(bounds);
-				ResizeMap();
-				
 			} else { alert('ERROR al procesar las coordenadas.');}
 		}
 		
 		function ResizeMap(){
-			if (objetos.length == 1){
+			if (UnElemento()){
 				map.setZoom(zoom);
 			}else{	
-				map.fitBounds(bounds);
+				map.fitBounds(bounds);		
 			}
+		}
+		
+		function UnElemento(){
+			var bool = false;
+			if (objetos.length == 1){
+				bool = true;
+			}
+			return bool;
 		}
 
 		function calculateDistances() {
