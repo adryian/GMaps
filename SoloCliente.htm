@@ -238,14 +238,19 @@
 		}
 		
 		function EventCreatorOnCLick(){
-			var inputElement = document.getElementById("botonCalculo"+objetos[1]);
-			inputElement.addEventListener('click', function(){
-				calculateDistances(objetos[1], objetos[0]);
-			});
-			var inputElement = document.getElementById("botonCalculo"+objetos[2]);
-			inputElement.addEventListener('click', function(){
-				calculateDistances(objetos[2], objetos[0]);
-			});
+			if (document.getElementById('dir'+objetos[1]).value != null && document.getElementById('dir'+objetos[1]).value != ''){
+				var inputElement = document.getElementById("botonCalculo"+objetos[1]);
+				inputElement.addEventListener('click', function(){
+					calculateDistances(objetos[1], objetos[0]);
+				});
+			}
+			
+			if (document.getElementById('dir'+objetos[2]).value != null && document.getElementById('dir'+objetos[2]).value != ''){
+				var inputElement = document.getElementById("botonCalculo"+objetos[2]);
+				inputElement.addEventListener('click', function(){
+					calculateDistances(objetos[2], objetos[0]);
+				});
+			}
 		}
 
 		function calculateDistances(obj2, obj1) {
