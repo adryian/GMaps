@@ -73,7 +73,6 @@
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
 	<script>
 		var DirIcon = 'http://maps.google.com/mapfiles/kml/';
-		//ROCO
 		var icons = {
 				cliente: {
 				name: 'Cliente',
@@ -90,7 +89,8 @@
 		};
 		var objetos = Object.keys(icons);
 		var Reg = [registro1, registro2, registro3];
-		var map, icons; 
+		var map; 
+		var zoom = 15;
 		var geocoder = new google.maps.Geocoder();;
 		var bounds = new google.maps.LatLngBounds();
 		var infowindow = new google.maps.InfoWindow(); 
@@ -101,18 +101,13 @@
 				document.getElementById('dir'+parametro).value = Reg[posicion];
 				DirToCoor('dir'+parametro, Reg[posicion]);
 			});
-			//setTimeout(function(){pintaMapa();}, 2000);
 		}
 	
 		function todoCargado() {
 			datos_cargados++;
-			if (datos_cargados == objetos.length) 
-			{
+			if (datos_cargados == objetos.length){
 				pintaMapa();
-			}
-			else {
-				alert("Faltan datos por cargar");
-			}
+			} 
 		}
 
 		function DirToCoor(p, dir) {
@@ -126,6 +121,13 @@
 				}
 			});
 		}	
+		
+		function MostrarElementos(){
+			document.getElementById('box').style.display = 'initial';
+			if (objetos.length > 1){
+				document.getElementById('data').style.display = 'initial';
+			}
+		}
 	</script>
     <script>
 		function initialize() {
@@ -133,22 +135,17 @@
 		}
 
 		function pintaMapa(){
-			document.getElementById("loading").style.display = "none";
 			if (document.getElementById("dirclientecoor").value.toString() != '0'){
-				//document.getElementById('legend').style.display = 'initial';
-				document.getElementById('box').style.display = 'initial';
-				//document.getElementById('data').style.display = 'initial';
-				document.getElementById('inicio').style.display = 'none';
+				MostrarElementos();
 				
 				map = new google.maps.Map(document.getElementById('map_canvas'), {
-				  zoom: 15,
+				  zoom: zoom,
 				  center: new google.maps.LatLng(41.384839453565945,2.1505413370483666),
 				  mapTypeId: google.maps.MapTypeId.ROADMAP,
 				});
 				
 				function addMarker(feature) {
-					if (feature.position.toString() != '(0, 0)'){
-						
+					if (feature.position.toString() != '(0, 0)'){		
 						var marker = new google.maps.Marker({
 							position: feature.position,
 							name: feature.type,
@@ -159,7 +156,9 @@
 							zIndex: feature.z
 						});
 						bounds.extend(marker.position);
-						map.panTo(marker.position);
+						if (objetos.length == 1){
+							map.panTo(marker.position);
+						}	
 						google.maps.event.addListener(marker, "dragend", function(evento) {
 							document.getElementById("t"+marker.name).value = evento.latLng.lat() + ", " + evento.latLng.lng();
 						});
@@ -187,20 +186,8 @@
 					transparency: 0.7
 				  }*/
 				];
-				
-				//var legend = document.getElementById('legend');
-				var par = document.getElementById('box');
-				/*for (var key in icons) {
-					var type = icons[key];
-					var name = type.name;
-					var icon = type.icon;
-					var div = document.createElement('div');
-					var tr = document.createElement('tr');
-					div.innerHTML = '<img src="' + icon + '"> ' + name;
-					legend.appendChild(div);
-				}
-				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);*/
-					
+
+				var par = document.getElementById('box');			
 				for (var i = 0, feature; feature = features[i]; i++) {
 					addMarker(feature);
 					var tr = document.createElement('tr');
@@ -223,9 +210,17 @@
 				
 				//COJEMOS LOS DOS VÍNCULOS DE POSICIÓN DE MARCADOR Y REDIMENSIONAMOS EL MAPA.
 				//map.fitBounds(bounds);
-				map.setZoom(15);
+				ResizeMap();
 				
 			} else { alert('ERROR al procesar las coordenadas.');}
+		}
+		
+		function ResizeMap(){
+			if (objetos.length == 1){
+				map.setZoom(zoom);
+			}else{	
+				map.fitBounds(bounds);
+			}
 		}
 
 		function calculateDistances() {
@@ -305,11 +300,6 @@
 	</script>
   </head>
   <body BACKGROUND="http://www.gifmania.com/Gif-Animados-Web/Imagenes-Rotulos-Webs/Rotulos-Cargando/Loading-Estrella-62151.gif" >
- 	<div id="loading" style="display: none;">
-		<a href="http://www.gifmania.com/Gif-Animados-Web/Imagenes-Rotulos-Webs/Rotulos-Cargando/" target="_blank">
-			<img src="http://www.gifmania.com/Gif-Animados-Web/Imagenes-Rotulos-Webs/Rotulos-Cargando/Loading-Estrella-62151.gif" alt="Rótulos Cargando - GIFMANIA" />
-		</a>
-	</div>
 	<div id="inicio">
 		<input style="width:400px" type="text" id="dircliente" name="dircliente" />
 		<input style="width:400px" type="text" id="dirclientecoor" name="Cliente"/>
@@ -319,7 +309,6 @@
 		<input style="width:400px" type="text" id="dirchofercoor" name="Chofer"/>	
 	</div>
     <div id="map_canvas"></div>
-    <div id="legend"></div>
 	<table id="box"></table>
 	<table id="data"></table>
   </body>
