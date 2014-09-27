@@ -78,14 +78,14 @@
 				name: 'Cliente',
 				icon: DirIcon + 'pal2/icon13.png'
 			},
-			/*vehiculo: {
+			vehiculo: {
 				name: 'Vehículo',
 				icon: DirIcon + 'pal4/icon15.png'
 			},
 			chofer: {
 				name: 'Chofer',
 				icon: DirIcon + 'pal2/icon6.png'
-			},*/
+			}
 		};
 		var objetos = Object.keys(icons);
 		var Reg = [registro1, registro2, registro3];
@@ -105,10 +105,21 @@
 	
 		function todoCargado() {
 			datos_cargados++;
+			console.log(datos_cargados);
 			if (datos_cargados == objetos.length){
 				pintaMapa();
 			} 
 		}
+
+		function falloDeCarga() {
+			datos_cargados++;
+			console.log("2: "+datos_cargados);
+			if (datos_cargados == objetos.length){
+				console.log("Fallo de carga!");
+				pintaMapa();
+			} 
+		}
+
 
 		function DirToCoor(p, dir) {
 			var ele = p + "coor";
@@ -117,6 +128,13 @@
 						document.getElementById(ele).value = results[0].geometry.location;
 						todoCargado();
 				} else {
+					if (dir != null && dir != '' && status != google.maps.GeocoderStatus.OK)
+					{
+						falloDeCarga();
+					}
+					else {
+						todoCargado();
+					}
 					document.getElementById(ele).value = (0,0);
 				}
 			});
@@ -144,7 +162,7 @@
 					dir: document.getElementById('dir'+objetos[0]).value,
 					z: 2, //prioridad de aparición, icono con z mayor es el predominante y se superpone a los demás.
 					transparency: 1
-				  }/*, {
+				  }, {
 					position: new google.maps.LatLng(document.getElementById('dir'+objetos[1]+'coor').value.substring(1,document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[1]+'coor').value.substring(document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",") +1))),
 					type: objetos[1],
 					dir: document.getElementById('dir'+objetos[1]).value,
@@ -156,7 +174,7 @@
 					dir: document.getElementById('dir'+objetos[2]).value,
 					z: 0,
 					transparency: 0.7
-				  }*/
+				  }
 				];
 				
 				map = new google.maps.Map(document.getElementById('map_canvas'), {
