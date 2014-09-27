@@ -78,17 +78,19 @@
 				name: 'Cliente',
 				icon: DirIcon + 'pal2/icon13.png'
 			},
-			/*vehiculo: {
+			vehiculo: {
 				name: 'Vehículo',
 				icon: DirIcon + 'pal4/icon15.png'
 			},
 			chofer: {
 				name: 'Chofer',
 				icon: DirIcon + 'pal2/icon6.png'
-			},*/
+			}
 		};
 		var objetos = Object.keys(icons);
+		console.log(objetos);
 		var Reg = [registro1, registro2, registro3];
+		console.log(Reg);
 		var map; 
 		var zoom = 15;
 		var geocoder = new google.maps.Geocoder();;
@@ -107,16 +109,26 @@
 			datos_cargados++;
 			if (datos_cargados == objetos.length){
 				pintaMapa();
-			} 
+			}
+		}
+
+		function falloDeCarga() {
+			console.log("Fallo de carga!");
 		}
 
 		function DirToCoor(p, dir) {
 			var ele = p + "coor";
 			geocoder.geocode( { 'address': dir }, function(results, status) {
 				if (dir != null && dir != '' && status == google.maps.GeocoderStatus.OK) {
-						document.getElementById(ele).value = results[0].geometry.location;
+					document.getElementById(ele).value = results[0].geometry.location;
+					todoCargado();
+				} else {7
+					if (dir != null && dir != '' && (status != google.maps.GeocoderStatus.OK)) {
+						falloDeCarga();
+					}
+					else {
 						todoCargado();
-				} else {
+					}
 					document.getElementById(ele).value = (0,0);
 				}
 			});
@@ -144,7 +156,7 @@
 					dir: document.getElementById('dir'+objetos[0]).value,
 					z: 2, //prioridad de aparición, icono con z mayor es el predominante y se superpone a los demás.
 					transparency: 1
-				  }/*, {
+				  }, {
 					position: new google.maps.LatLng(document.getElementById('dir'+objetos[1]+'coor').value.substring(1,document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",")),parseFloat(document.getElementById('dir'+objetos[1]+'coor').value.substring(document.getElementById('dir'+objetos[1]+'coor').value.indexOf(",") +1))),
 					type: objetos[1],
 					dir: document.getElementById('dir'+objetos[1]).value,
@@ -156,7 +168,7 @@
 					dir: document.getElementById('dir'+objetos[2]).value,
 					z: 0,
 					transparency: 0.7
-				  }*/
+				  }
 				];
 				
 				map = new google.maps.Map(document.getElementById('map_canvas'), {
