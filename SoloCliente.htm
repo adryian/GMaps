@@ -123,19 +123,23 @@
 
 		function DirToCoor(p, dir) {
 			var ele = p + "coor";
+			alert(dir);
 			geocoder.geocode( { 'address': dir }, function(results, status) {
 				if (dir != null && dir != '' && status == google.maps.GeocoderStatus.OK) {
-						document.getElementById(ele).value = results[0].geometry.location;
-						todoCargado();
+					document.getElementById(ele).value = results[0].geometry.location;
+					todoCargado();
 				} else {
 					if (dir != null && dir != '' && status != google.maps.GeocoderStatus.OK)
 					{
 						falloDeCarga();
 					}
-					else {
+					//else if(status != google.maps.GeocoderStatus.OK) {
 						todoCargado();
-					}
+					//}
+					alert(ele);
+					
 					document.getElementById(ele).value = (0,0);
+					alert(document.getElementById(ele).value);
 				}
 			});
 		}	
