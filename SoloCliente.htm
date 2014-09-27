@@ -23,9 +23,10 @@
 		table {
 		border-spacing: 2px;
 		border-spacing: 2px;
-		border="0" cellpadding="0";
-		cellspacing="0";
-		width="50%";
+		border: "0";
+		cellpadding: "0";
+		cellspacing: "0";
+		width: "50%";
 		background: #fff;
 		padding: 10px;
 		margin: 10px;
@@ -120,7 +121,6 @@
 			} 
 		}
 
-
 		function DirToCoor(p, dir) {
 			var ele = p + "coor";
 			geocoder.geocode( { 'address': dir }, function(results, status) {
@@ -152,7 +152,7 @@
 		}
 
 		function pintaMapa(){
-			if (document.getElementById("dirclientecoor").value.toString() != '0'){
+			if (document.getElementById('dir'+objetos[0]+'coor').value.toString() != '0'){
 				MostrarElementos();
 				
 				var features = [
@@ -203,17 +203,17 @@
 						});
 					}
 				}
-				
-				ResizeMap();
 
 				var par = document.getElementById('box');			
 				for (var i = 0, feature; feature = features[i]; i++) {
 					addMarker(feature);
-					var tr = document.createElement('tr');
-					tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"></div></td><td><span id="nombox"><b>' + feature.type +
-					'</b></span></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td><td><input type="text" id="t' + 
-					feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + parseFloat(feature.position.lng()) + '" size="20" readonly="true"/></td>';
-					par.appendChild(tr);
+					if(feature.position.toString() != '(0, 0)'){
+						var tr = document.createElement('tr');
+						tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"></div></td><td><span id="nombox"><b>' + feature.type +
+						'</b></span></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td><td><input type="text" id="t' + 
+						feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + parseFloat(feature.position.lng()) + '" size="20" readonly="true"/></td>';
+						par.appendChild(tr);
+					}
 				}	
 				if (!UnElemento()){
 					var tr = document.createElement('tr');
@@ -226,7 +226,9 @@
 					dat.appendChild(tr);
 					map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dat);
 				}
+				
 				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(par);
+				ResizeMap();
 			} else { alert('ERROR al procesar las coordenadas.');}
 		}
 		
@@ -240,7 +242,7 @@
 		
 		function UnElemento(){
 			var bool = false;
-			if (objetos.length == 1){
+			if (document.getElementById('dir'+objetos[1]+'coor').value.toString() == '0' && document.getElementById('dir'+objetos[2]+'coor').value.toString() == '0'){
 				bool = true;
 			}
 			return bool;
@@ -274,7 +276,7 @@
 					for (var i = 0; i < origins.length; i++) {
 						var results = response.rows[i].elements;
 						for (var j = 0; j < results.length; j++) {
-							outputDiv.innerHTML += "<b>Vehiculo:  </b>" + origins[i] + '<br><b>Cliente:  </b>' + destinations[j]
+							outputDiv.innerHTML += '<b>'+objetos[1]+'</b>' + origins[i] + '<br><b>'+objetos[1]+'</b>' + destinations[j]
 							+ '<br><b>Distancia:  </b>' + results[j].distance.text + '<br><b>Tiempo:  </b> '
 							+ results[j].duration.text + ' aproximadamente.<br>';
 						}
