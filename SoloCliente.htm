@@ -75,15 +75,15 @@
 	<script>
 		var DirIcon = 'http://maps.google.com/mapfiles/kml/';
 		var icons = {
-				cliente: {
+			Cliente: {
 				name: 'Cliente',
 				icon: DirIcon + 'pal2/icon13.png'
 			},
-			vehiculo: {
+			Vehiculo: {
 				name: 'Vehículo',
 				icon: DirIcon + 'pal4/icon15.png'
 			},
-			chofer: {
+			Chofer: {
 				name: 'Chofer',
 				icon: DirIcon + 'pal2/icon6.png'
 			}
@@ -276,7 +276,7 @@
 					for (var i = 0; i < origins.length; i++) {
 						var results = response.rows[i].elements;
 						for (var j = 0; j < results.length; j++) {
-							outputDiv.innerHTML += '<b>'+objetos[1]+'</b>' + origins[i] + '<br><b>'+objetos[1]+'</b>' + destinations[j]
+							outputDiv.innerHTML += '<b>'+objetos[1]+'  </b>' + origins[i] + '<br><b>'+objetos[0]+'  </b>' + destinations[j]
 							+ '<br><b>Distancia:  </b>' + results[j].distance.text + '<br><b>Tiempo:  </b> '
 							+ results[j].duration.text + ' aproximadamente.<br>';
 						}
@@ -327,12 +327,12 @@
   </head>
   <body BACKGROUND="http://www.gifmania.com/Gif-Animados-Web/Imagenes-Rotulos-Webs/Rotulos-Cargando/Loading-Estrella-62151.gif" >
 	<div id="inicio">
-		<input style="width:400px" type="text" id="dircliente" name="dircliente" />
-		<input style="width:400px" type="text" id="dirclientecoor" name="Cliente"/>
-		<input style="width:400px" type="text" id="dirvehiculo" name="dirvehiculo" />
-		<input style="width:400px" type="text" id="dirvehiculocoor" name="Vehiculo"/>
-		<input style="width:400px" type="text" id="dirchofer" name="dirchofer" />
-		<input style="width:400px" type="text" id="dirchofercoor" name="Chofer"/>	
+		<input style="width:400px" type="text" id="dirCliente" name="dirCliente" />
+		<input style="width:400px" type="text" id="dirClientecoor" name="Cliente"/>
+		<input style="width:400px" type="text" id="dirVehiculo" name="dirVehiculo" />
+		<input style="width:400px" type="text" id="dirVehiculocoor" name="Vehiculo"/>
+		<input style="width:400px" type="text" id="dirChofer" name="dirChofer" />
+		<input style="width:400px" type="text" id="dirChofercoor" name="Chofer"/>	
 	</div>
     <div id="map_canvas"></div>
 	<table id="box"></table>
