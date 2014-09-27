@@ -249,8 +249,8 @@
 		function calculateDistances() {
 			limpiarDiv();
 			DeleteCamino();
-			var origen = new google.maps.LatLng(parseFloat(document.getElementById('tvehiculo').value.split(",")[0]),parseFloat(document.getElementById('tvehiculo').value.split(",")[1]));
-			var destino = new google.maps.LatLng(parseFloat(document.getElementById('tcliente').value.split(",")[0]),parseFloat(document.getElementById('tcliente').value.split(",")[1]));
+			var origen = new google.maps.LatLng(parseFloat(document.getElementById('t'+objetos[1]).value.split(",")[0]),parseFloat(document.getElementById('t'+objetos[1]).value.split(",")[1]));
+			var destino = new google.maps.LatLng(parseFloat(document.getElementById('t'+objetos[0]).value.split(",")[0]),parseFloat(document.getElementById('t'+objetos[0]).value.split(",")[1]));
 			var service = new google.maps.DistanceMatrixService();
 			service.getDistanceMatrix(
 			{
