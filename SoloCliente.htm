@@ -55,7 +55,7 @@
 			font-weight: bold;
 		}
 		#tVehiculo, #tCliente, #tChofer, #tVehiculodir, #tClientedir, #tChoferdir {
-			width: 150px;
+			width: 250px;
 			font-size: 10px;
 			font-family: verdana;
 		}
@@ -86,6 +86,7 @@
 		var bounds = new google.maps.LatLngBounds();
 		var infowindow = new google.maps.InfoWindow(); 
 		var datos_cargados = 0;
+		var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
 
 		function cargarDatos(){
 			objetos.forEach(function(parametro, posicion){
@@ -102,14 +103,14 @@
 			} 
 		}
 
-		function falloDeCarga() {
+		/*function falloDeCarga() {
 			datos_cargados++;
 			console.log("2: "+datos_cargados);
 			if (datos_cargados == objetos.length){
 				console.log("Fallo de carga!");
 				pintaMapa();
 			} 
-		}
+		}*/
 
 		function DirToCoor(p, dir) {
 			var ele = p + "coor";
@@ -135,10 +136,6 @@
 			if (objetos.length > 1){
 				document.getElementById('data').style.display = 'initial';
 			}
-		}
-
-		function initialize() {
-			cargarDatos();
 		}
 
 		function pintaMapa(){
@@ -200,26 +197,26 @@
 					if(feature.position.toString() != '(0, 0)'){
 						var tr = document.createElement('tr');
 						tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"><span id="nombox"><b>  ' + 
-						feature.type + '</b></span></div></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td>';
-						if (feature.type != objetos[0]){
-							tr.innerHTML +=	'<td><button type="button" id="botonCalculo'+feature.type+'");">Cálcular</button></td>';
-						}
+						feature.type + '</b></span></div></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20"/></td>';
 						par.appendChild(tr);
 						var tr = document.createElement('tr');
-						tr.innerHTML = '<td></td><td><input type="text" id="t' + feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + 
+						tr.innerHTML = '<td/><td><input type="text" id="t' + feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + 
 						parseFloat(feature.position.lng()) + '" size="20" readonly="true"/></td>';
+						if (feature.type != objetos[0]){
+							tr.innerHTML +=	'<td><button type="button" id="botonCalculo'+feature.type+'");">Calcular</button></td>';
+						}
 						par.appendChild(tr);
 					}
 				}	
 				if (!UnElemento()){			
 					var dat = document.getElementById('data');			
 					var tr = document.createElement('tr');
-					tr.innerHTML = '<td></td><td><div id="dist">Pulse "Calcular" para obtener la distancia.</div></td>';
+					tr.innerHTML = '<td></td><td><div id="dist">Pulse "Calcular" para obtener la distancia al <b>Cliente.</b></div></td>';
 					dat.appendChild(tr);
 					map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dat);
 				}
-				EventCreatorOnCLick();
 				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(par);
+				EventCreatorOnCLick();	
 				ResizeMap();
 			} else { alert('ERROR al procesar las coordenadas.');}
 		}
@@ -291,18 +288,7 @@
 		function limpiarDiv() {
 			document.getElementById("dist").innerHTML="";
 		}	
-		
-		function ChoferNoVehi(ori, desti) {
-		var distance = DistanciaPuntos(ori, desti);
-			alert(distance);
-			if (distance > 10){
-				alert('ATENCIÓN! El chofer se encuentra  a ' + distance + ' del vehículo.');
-			}
-		}		
-		google.maps.event.addDomListener(window, 'load', initialize);	
-    </script>
-	<script>
-		var dirRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
+	
 		function loadCamino(obj2, obj1){
 			var dirService = new google.maps.DirectionsService();
 			dirRenderer.setMap(map);
@@ -320,6 +306,21 @@
 		
 		function DeleteCamino(){
 			dirRenderer.setMap(null);
+		}
+
+		function initialize() {
+			cargarDatos();
+		}
+
+		google.maps.event.addDomListener(window, 'load', initialize);	
+    </script>
+	<script>
+		function ChoferNoVehi(ori, desti) {
+			var distance = DistanciaPuntos(ori, desti);
+			alert(distance);
+			if (distance > 10){
+				alert('ATENCIÓN! El chofer se encuentra  a ' + distance + ' del vehículo.');
+			}
 		}
 		
 		function DistanciaPuntos(ori, desti) {
