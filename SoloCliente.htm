@@ -7,51 +7,41 @@
     <meta charset="ISO-8859-1">
     <style>
 		html, body, #map_canvas {
-		margin: 0;
-		padding: 0;
-		height: 100%;
-		background-position:center center;
-		background-repeat:no-repeat;
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background-position:center center;
+			background-repeat:no-repeat;
 		}
 		td {
-		vertical-align: center;
+			vertical-align: center;
 		}
 		#inicio {
-		position: absolute;
-		display:none;
+			position: absolute;
+			display:none;
 		}
 		table {
-		border-spacing: 2px;
-		border-spacing: 2px;
-		border: "0";
-		cellpadding: "0";
-		cellspacing: "0";
-		width: "50%";
-		background: #fff;
-		padding: 10px;
-		margin: 10px;
-		border: 2px solid #000;
+			border-spacing: 2px;
+			border-spacing: 2px;
+			border: "0";
+			cellpadding: "0px";
+			cellspacing: "0px";
+			width: "50%";
+			background: #fff;
+			padding: 10px;
+			margin: 10px;
+			border: 2px solid #000;
 		}
 		#dist {
-		margin: 1px;
-		padding: 1px;
+			margin: 1px;
+			padding: 1px;
 		}
-		#legend {
-		font-family: Arial, sans-serif;
-		background: #fff;
-		padding: 10px;
-		margin: 10px;
-		border: 2px solid #000;
+		img {
+			vertical-align: middle;
 		}
-		#legend h3 {
-		margin-top: 0;
-		}
-		#legend img {
-		vertical-align: middle;
-		}
-		#box, #data, #legend{
-		display:none;
-		opacity: 0.8;
+		#box, #data{
+			display:none;
+			opacity: 0.8;
 		}
 		span#nombox{
 			font-size: 12px;
@@ -59,15 +49,15 @@
 			font-weight: bold;
 			padding-right: 10px;
 		}
-		#vehiculo, #cliente, #chofer {
-		  font-size: 10px;
-		  font-family: verdana;
-		  font-weight: bold;
+		#Vehiculo, #Cliente, #Chofer {
+			font-size: 10px;
+			font-family: verdana;
+			font-weight: bold;
 		}
-		#tvehiculo, #tcliente, #tchofer, #tvehiculodir, #tclientedir, #tchoferdir {
-		  width: 150px;
-		  font-size: 10px;
-		  font-family: verdana;
+		#tVehiculo, #tCliente, #tChofer, #tVehiculodir, #tClientedir, #tChoferdir {
+			width: 150px;
+			font-size: 10px;
+			font-family: verdana;
 		}
     </style>
 	<script src="mi_archivo.txt"></script>
@@ -209,9 +199,12 @@
 					addMarker(feature);
 					if(feature.position.toString() != '(0, 0)'){
 						var tr = document.createElement('tr');
-						tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"></div></td><td><span id="nombox"><b>' + feature.type +
-						'</b></span></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td><td><input type="text" id="t' + 
-						feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + parseFloat(feature.position.lng()) + '" size="20" readonly="true"/></td>';
+						tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"><span id="nombox"><b>  ' + 
+						feature.type + '</b></span></div></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td>';
+						par.appendChild(tr);
+						var tr = document.createElement('tr');
+						tr.innerHTML = '<td></td><td><input type="text" id="t' + feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + 
+						parseFloat(feature.position.lng()) + '" size="20" readonly="true"/></td>';
 						par.appendChild(tr);
 					}
 				}	
@@ -222,7 +215,7 @@
 						
 					var dat = document.getElementById('data');			
 					var tr = document.createElement('tr');
-					tr.innerHTML = '<td></td><td><div id="dist">Distancia del vehículo al cliente final.</div></td>';
+					tr.innerHTML = '<td></td><td><div id="dist">Pulse "Calcular" para obtener la distancia.</div></td>';
 					dat.appendChild(tr);
 					map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dat);
 				}
