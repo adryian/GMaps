@@ -201,6 +201,10 @@
 						var tr = document.createElement('tr');
 						tr.innerHTML = '<td><div id="' + feature.type + '"><img src="' + icons[feature.type].icon + '"><span id="nombox"><b>  ' + 
 						feature.type + '</b></span></div></td><td><input type="text" id="t' + feature.type + 'dir" value="' + feature.dir  + '" size="20" readonly="true"/></td>';
+						if (feature.type != objetos[0]){
+						alert(feature.type + ' ' + objetos[0]);
+							tr.innerHTML +=	'<td><button type="button" onclick="calculateDistances('+feature.type+', '+objetos[0]+');">Cálcular</button></td>';
+						}
 						par.appendChild(tr);
 						var tr = document.createElement('tr');
 						tr.innerHTML = '<td></td><td><input type="text" id="t' + feature.type + '" value="' + parseFloat(feature.position.lat()) + ", " + 
@@ -208,11 +212,7 @@
 						par.appendChild(tr);
 					}
 				}	
-				if (!UnElemento()){
-					var tr = document.createElement('tr');
-					tr.innerHTML = '<td><button type="button" onclick="calculateDistances();">Cálculo</button></td>';
-					par.appendChild(tr);
-						
+				if (!UnElemento()){			
 					var dat = document.getElementById('data');			
 					var tr = document.createElement('tr');
 					tr.innerHTML = '<td></td><td><div id="dist">Pulse "Calcular" para obtener la distancia.</div></td>';
@@ -241,19 +241,20 @@
 			return bool;
 		}
 
-		function calculateDistances() {
+		function calculateDistances(obj2, obj1) {
+		alert(obj2 + ' ' + obj1);
 			limpiarDiv();
 			DeleteCamino();
-			var origen = new google.maps.LatLng(parseFloat(document.getElementById('t'+objetos[1]).value.split(",")[0]),parseFloat(document.getElementById('t'+objetos[1]).value.split(",")[1]));
-			var destino = new google.maps.LatLng(parseFloat(document.getElementById('t'+objetos[0]).value.split(",")[0]),parseFloat(document.getElementById('t'+objetos[0]).value.split(",")[1]));
+			var origen = new google.maps.LatLng(parseFloat(document.getElementById('t'+obj2).value.split(",")[0]),parseFloat(document.getElementById('t'+obj2).value.split(",")[1]));
+			var destino = new google.maps.LatLng(parseFloat(document.getElementById('t'+obj1).value.split(",")[0]),parseFloat(document.getElementById('t'+obj1).value.split(",")[1]));
 			var service = new google.maps.DistanceMatrixService();
 			service.getDistanceMatrix(
 			{
-			origins: [origen],
-			destinations: [destino],
-			travelMode: google.maps.TravelMode.DRIVING,
-			avoidHighways: false,
-			avoidTolls: false
+				origins: [origen],
+				destinations: [destino],
+				travelMode: google.maps.TravelMode.DRIVING,
+				avoidHighways: false,
+				avoidTolls: false
 			}, callback);
 			callback;
 			loadCamino();
@@ -297,8 +298,8 @@
 			var dirService = new google.maps.DirectionsService();
 			dirRenderer.setMap(map);
 			var request = {
-				origin: document.getElementById('tvehiculo').value,
-				destination: document.getElementById('tcliente').value,
+				origin: document.getElementById('t'+objetos[1]).value,
+				destination: document.getElementById('t'+objetos[0]).value,
 				travelMode: google.maps.TravelMode.DRIVING
 			};
 			dirService.route(request, function(result, status) {
